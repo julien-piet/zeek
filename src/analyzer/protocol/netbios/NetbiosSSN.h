@@ -152,7 +152,7 @@ public:
 
 protected:
 	void ConnectionClosed(tcp::TCP_Endpoint* endpoint,
-					tcp::TCP_Endpoint* peer, int gen_event) override;
+					tcp::TCP_Endpoint* peer, bool gen_event) override;
 	void EndpointEOF(bool is_orig) override;
 
 	void ExpireTimer(double t);

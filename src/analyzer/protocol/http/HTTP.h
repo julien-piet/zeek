@@ -171,7 +171,7 @@ public:
 
 	// Overriden from tcp::TCP_ApplicationAnalyzer
 	void EndpointEOF(bool is_orig) override;
-	void ConnectionFinished(int half_finished) override;
+	void ConnectionFinished(bool half_finished) override;
 	void ConnectionReset() override;
 	void PacketWithRST() override;
 
@@ -285,4 +285,4 @@ extern void escape_URI_char(unsigned char ch, unsigned char*& p);
 extern BroString* unescape_URI(const u_char* line, const u_char* line_end,
 				analyzer::Analyzer* analyzer);
 
-} } // namespace analyzer::* 
+} } // namespace analyzer::*

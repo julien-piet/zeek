@@ -1769,7 +1769,7 @@ void DNS_Analyzer::DeliverPacket(int len, const u_char* data, bool orig,
 
 
 void DNS_Analyzer::ConnectionClosed(tcp::TCP_Endpoint* endpoint, tcp::TCP_Endpoint* peer,
-					int gen_event)
+					bool gen_event)
 	{
 	tcp::TCP_ApplicationAnalyzer::ConnectionClosed(endpoint, peer, gen_event);
 

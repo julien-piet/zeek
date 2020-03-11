@@ -1153,7 +1153,7 @@ void HTTP_Analyzer::EndpointEOF(bool is_orig)
 		ReplyMade(0, "message ends as connection contents are completely delivered");
 	}
 
-void HTTP_Analyzer::ConnectionFinished(int half_finished)
+void HTTP_Analyzer::ConnectionFinished(bool half_finished)
 	{
 	tcp::TCP_ApplicationAnalyzer::ConnectionFinished(half_finished);
 

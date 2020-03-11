@@ -510,7 +510,7 @@ void NetbiosSSN_Analyzer::EndpointEOF(bool orig)
 	}
 
 void NetbiosSSN_Analyzer::ConnectionClosed(tcp::TCP_Endpoint* endpoint,
-				tcp::TCP_Endpoint* peer, int gen_event)
+				tcp::TCP_Endpoint* peer, bool gen_event)
 	{
 	tcp::TCP_ApplicationAnalyzer::ConnectionClosed(endpoint, peer, gen_event);
 

@@ -357,7 +357,7 @@ public:
 	void Init() override;
 	void Done() override;
 	void ConnectionClosed(tcp::TCP_Endpoint* endpoint,
-					tcp::TCP_Endpoint* peer, int gen_event) override;
+					tcp::TCP_Endpoint* peer, bool gen_event) override;
 	void ExpireTimer(double t);
 
 	static analyzer::Analyzer* Instantiate(Connection* conn)
@@ -373,4 +373,4 @@ protected:
 // FIXME: Doesn't really fit into new analyzer structure. What to do?
 int IsReuse(double t, const u_char* pkt);
 
-} } // namespace analyzer::* 
+} } // namespace analyzer::*
