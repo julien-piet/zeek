@@ -66,27 +66,27 @@ public:
 	explicit NetbiosSSN_Interpreter(Analyzer* analyzer);
 
 	int ParseMessage(unsigned int type, unsigned int flags,
-			const u_char* data, int len, int is_query);
+			const u_char* data, int len, bool is_query);
 
 	// Version used when data points to type/flags/length.
-	int ParseMessageTCP(const u_char* data, int len, int is_query);
-	int ParseMessageUDP(const u_char* data, int len, int is_query);
+	int ParseMessageTCP(const u_char* data, int len, bool is_query);
+	int ParseMessageUDP(const u_char* data, int len, bool is_query);
 
 	void Timeout()	{ }
 
 protected:
-	int ParseSessionMsg(const u_char* data, int len, int is_query);
-	int ParseSessionReq(const u_char* data, int len, int is_query);
-	int ParseSessionPosResp(const u_char* data, int len, int is_query);
-	int ParseSessionNegResp(const u_char* data, int len, int is_query);
-	int ParseRetArgResp(const u_char* data, int len, int is_query);
-	int ParseKeepAlive(const u_char* data, int len, int is_query);
+	int ParseSessionMsg(const u_char* data, int len, bool is_query);
+	int ParseSessionReq(const u_char* data, int len, bool is_query);
+	int ParseSessionPosResp(const u_char* data, int len, bool is_query);
+	int ParseSessionNegResp(const u_char* data, int len, bool is_query);
+	int ParseRetArgResp(const u_char* data, int len, bool is_query);
+	int ParseKeepAlive(const u_char* data, int len, bool is_query);
 
 	// Datagram parsing
-	int ParseBroadcast(const u_char* data, int len, int is_query);
-	int ParseDatagram(const u_char* data, int len, int is_query);
+	int ParseBroadcast(const u_char* data, int len, bool is_query);
+	int ParseDatagram(const u_char* data, int len, bool is_query);
 
-	int ParseSambaMsg(const u_char* data, int len, int is_query);
+	int ParseSambaMsg(const u_char* data, int len, bool is_query);
 
 	void Event(EventHandlerPtr event, const u_char* data, int len,
 			int is_orig = -1);
