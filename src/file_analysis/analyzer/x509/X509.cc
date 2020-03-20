@@ -346,7 +346,7 @@ void file_analysis::X509::ParseSAN(X509_EXTENSION* ext)
 	VectorVal* uris = 0;
 	VectorVal* ips = 0;
 
-	unsigned int otherfields = 0;
+	bool otherfields = false;
 
 	for ( int i = 0; i < sk_GENERAL_NAME_num(altname); i++ )
 		{
@@ -417,7 +417,7 @@ void file_analysis::X509::ParseSAN(X509_EXTENSION* ext)
 			{
 			// reporter->Error("Subject alternative name contained unsupported fields. fuid %s", GetFile()->GetID().c_str());
 			// This happens quite often - just mark it
-			otherfields = 1;
+			otherfields = true;
 			continue;
 			}
 		}
