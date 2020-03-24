@@ -132,7 +132,7 @@ bool Specific_RE_Matcher::Compile(bool lazy)
 		reporter->Error("error compiling pattern /%s/", pattern_text);
 		Unref(nfa);
 		nfa = 0;
-		return 0;
+		return false;
 		}
 
 	EC()->BuildECs();

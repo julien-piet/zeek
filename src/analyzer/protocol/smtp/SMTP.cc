@@ -909,7 +909,7 @@ void SMTP_Analyzer::UnexpectedReply(int cmd_code, int reply_code)
 
 void SMTP_Analyzer::ProcessData(int length, const char* line)
 	{
-	mail->Deliver(length, line, 1 /* trailing_CRLF */);
+	mail->Deliver(length, line, true /* trailing_CRLF */);
 	}
 
 void SMTP_Analyzer::BeginData(bool orig)

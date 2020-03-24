@@ -771,4 +771,3 @@ flow GTPv1_Flow(is_orig: bool)
 	};
 
 refine typeattr GTPv1_Header += &let { proc_gtpv1 = $context.flow.process_gtpv1(this); };
-

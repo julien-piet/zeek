@@ -136,7 +136,7 @@ void Login_Analyzer::NewLine(bool orig, char* line)
 
 	else if ( ! saw_ploy && IsSuccessMsg(line) )
 		{
-		LoginEvent(login_success, line, 1);
+		LoginEvent(login_success, line, true);
 		state = LOGIN_STATE_LOGGED_IN;
 		}
 	}
@@ -255,9 +255,9 @@ void Login_Analyzer::AuthenticationDialog(bool orig, char* line)
 
 		if ( IsDirectLoginPrompt(line) )
 			{
-			LoginEvent(login_success, line, 1);
+			LoginEvent(login_success, line, true);
 			state = LOGIN_STATE_LOGGED_IN;
-			SetSkip(1);
+			SetSkip(true);
 			return;
 			}
 		}
@@ -295,7 +295,7 @@ void Login_Analyzer::AuthenticationDialog(bool orig, char* line)
 			}
 
 		state = LOGIN_STATE_SKIP;
-		SetSkip(1);
+		SetSkip(true);
 		}
 
 	else if ( IsSuccessMsg(line) ||
@@ -367,7 +367,7 @@ void Login_Analyzer::EndpointEOF(bool orig)
 
 	if ( state == LOGIN_STATE_AUTHENTICATE && HaveTypeahead() )
 		{
-		LoginEvent(login_success, "<EOF>", 1);
+		LoginEvent(login_success, "<EOF>", true);
 		state = LOGIN_STATE_LOGGED_IN;
 		}
 	}

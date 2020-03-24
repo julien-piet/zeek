@@ -229,7 +229,7 @@ bool Manager::CreateStream(EnumVal* id, RecordVal* sval)
 	{
 	RecordType* rtype = sval->Type()->AsRecordType();
 
-	if ( ! same_type(rtype, BifType::Record::Log::Stream, 0) )
+	if ( ! same_type(rtype, BifType::Record::Log::Stream, false) )
 		{
 		reporter->Error("sval argument not of right type");
 		return false;
@@ -532,7 +532,7 @@ bool Manager::AddFilter(EnumVal* id, RecordVal* fval)
 	{
 	RecordType* rtype = fval->Type()->AsRecordType();
 
-	if ( ! same_type(rtype, BifType::Record::Log::Filter, 0) )
+	if ( ! same_type(rtype, BifType::Record::Log::Filter, false) )
 		{
 		reporter->Error("filter argument not of right type");
 		return false;

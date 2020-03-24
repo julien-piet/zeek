@@ -754,7 +754,7 @@ void Analyzer::CancelTimers()
 	for ( auto timer : tmp )
 		timer_mgr->Cancel(timer);
 
-	timers_canceled = 1;
+	timers_canceled = true;
 	timers.clear();
 	}
 

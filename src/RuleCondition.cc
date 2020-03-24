@@ -175,7 +175,7 @@ bool RuleConditionEval::DoMatch(Rule* rule, RuleEndpointState* state,
 	else
 		args.push_back(val_mgr->GetEmptyString());
 
-	bool result = 0;
+	bool result = false;
 
 	try
 		{
@@ -202,4 +202,3 @@ void RuleConditionEval::PrintDebug()
 	{
 	fprintf(stderr, "	RuleConditionEval: %s\n", id->Name());
 	}
-

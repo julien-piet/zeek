@@ -107,7 +107,7 @@ void BroString::Adopt(byte_vec bytes, int len)
 
 	// Check if the string ends with a NUL.  If so, mark it as having
 	// a final NUL and adjust the length accordingly.
-	final_NUL = (b[len-1] == '\0') ? 1 : 0;
+	final_NUL = (b[len-1] == '\0');
 	n = len - final_NUL;
 	}
 

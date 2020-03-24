@@ -448,12 +448,12 @@ MIME_Multiline::~MIME_Multiline()
 
 void MIME_Multiline::append(int len, const char* data)
 	{
-	buffer.push_back(new BroString((const u_char*) data, len, 1));
+	buffer.push_back(new BroString((const u_char*) data, len, true));
 	}
 
 BroString* MIME_Multiline::get_concatenated_line()
 	{
-	if ( buffer.size() == 0 )
+	if ( buffer.empty() )
 		return 0;
 
 	delete line;

@@ -1474,11 +1474,11 @@ static bool is_init_compat(const BroType* t1, const BroType* t2)
 		if ( t2->Tag() == TYPE_RECORD )
 			return true;
 		else
-			return t1->AsTypeList()->AllMatch(t2, 1);
+			return t1->AsTypeList()->AllMatch(t2, true);
 		}
 
 	if ( t1->IsSet() )
-		return same_type(t1->AsSetType()->Indices(), t2, 1);
+		return same_type(t1->AsSetType()->Indices(), t2, true);
 
 	return false;
 	}
@@ -1617,7 +1617,7 @@ bool same_type(const BroType* t1, const BroType* t2, bool is_init, bool match_re
 		{
 		const OpaqueType* ot1 = (const OpaqueType*) t1;
 		const OpaqueType* ot2 = (const OpaqueType*) t2;
-		return ot1->Name() == ot2->Name() ? 1 : 0;
+		return ot1->Name() == ot2->Name();
 		}
 
 	case TYPE_TYPE:
@@ -1687,7 +1687,7 @@ const BroType* flatten_type(const BroType* t)
 		reporter->InternalError("empty type list in flatten_type");
 
 	const BroType* ft = (*types)[0];
-	if ( types->length() == 1 || tl->AllMatch(ft, 0) )
+	if ( types->length() == 1 || tl->AllMatch(ft, false) )
 		return ft;
 
 	return t;

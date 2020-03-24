@@ -139,8 +139,8 @@ TCP_Analyzer::TCP_Analyzer(Connection* conn)
 	first_packet_seen = 0;
 	is_partial = 0;
 
-	orig = new TCP_Endpoint(this, 1);
-	resp = new TCP_Endpoint(this, 0);
+	orig = new TCP_Endpoint(this, true);
+	resp = new TCP_Endpoint(this, false);
 
 	orig->SetPeer(resp);
 	resp->SetPeer(orig);
@@ -1656,7 +1656,7 @@ void TCP_Analyzer::ConnectionClosed(TCP_Endpoint* endpoint, TCP_Endpoint* peer,
 	if ( endpoint->did_close )
 		return;	// nothing new to report
 
-	endpoint->did_close = 1;
+	endpoint->did_close = true;
 
 	int close_complete =
 		endpoint->state == TCP_ENDPOINT_RESET ||
@@ -1684,9 +1684,9 @@ void TCP_Analyzer::ConnectionClosed(TCP_Endpoint* endpoint, TCP_Endpoint* peer,
 			if ( gen_event )
 				{
 				if ( peer->state == TCP_ENDPOINT_INACTIVE )
-					ConnectionFinished(1);
+					ConnectionFinished(true);
 				else
-					ConnectionFinished(0);
+					ConnectionFinished(false);
 				}
 			}
 

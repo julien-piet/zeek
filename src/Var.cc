@@ -39,7 +39,7 @@ static void make_var(ID* id, IntrusivePtr<BroType> t, init_class c,
 			{
 			BroObj* redef_obj = init ? (BroObj*) init.get() : (BroObj*) t.get();
 			if ( dt != VAR_REDEF )
-				id->Warn("redefinition requires \"redef\"", redef_obj, 1);
+				id->Warn("redefinition requires \"redef\"", redef_obj, true);
 			}
 
 		else if ( dt != VAR_REDEF || init || ! attr )

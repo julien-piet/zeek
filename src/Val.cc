@@ -588,7 +588,7 @@ static void BuildJSON(threading::formatter::JSON::NullDoubleWriter& writer, Val*
 						{
 						auto blank = make_intrusive<StringVal>("");
 						auto fn_val = make_intrusive<StringVal>(field_name);
-						auto key_val = fn_val->Substitute(re, blank.get(), 0)->AsStringVal();
+						auto key_val = fn_val->Substitute(re, blank.get(), false)->AsStringVal();
 						key_str = key_val->ToStdString();
 						Unref(key_val);
 						}
@@ -2543,7 +2543,7 @@ unsigned int TableVal::MemoryAllocation() const
 
 HashKey* TableVal::ComputeHash(const Val* index) const
 	{
-	return table_hash->ComputeHash(index, 1);
+	return table_hash->ComputeHash(index, true);
 	}
 
 vector<RecordVal*> RecordVal::parse_time_records;
@@ -2875,7 +2875,7 @@ VectorVal::~VectorVal()
 bool VectorVal::Assign(unsigned int index, Val* element)
 	{
 	if ( element &&
-	     ! same_type(element->Type(), vector_type->YieldType(), 0) )
+	     ! same_type(element->Type(), vector_type->YieldType(), false) )
 		{
 		Unref(element);
 		return false;
@@ -2914,7 +2914,7 @@ bool VectorVal::AssignRepeat(unsigned int index, unsigned int how_many,
 bool VectorVal::Insert(unsigned int index, Val* element)
 	{
 	if ( element &&
-	     ! same_type(element->Type(), vector_type->YieldType(), 0) )
+	     ! same_type(element->Type(), vector_type->YieldType(), false) )
 		{
 		Unref(element);
 		return false;
@@ -3059,7 +3059,7 @@ IntrusivePtr<Val> check_and_promote(IntrusivePtr<Val> v, const BroType* t,
 		if ( same_type(t, vt, is_init) )
 			return v;
 
-		t->Error("type clash", v.get(), 0, expr_location);
+		t->Error("type clash", v.get(), false, expr_location);
 		return nullptr;
 		}
 
@@ -3067,9 +3067,9 @@ IntrusivePtr<Val> check_and_promote(IntrusivePtr<Val> v, const BroType* t,
 	     (! IsArithmetic(v_tag) || t_tag != TYPE_TIME || ! v->IsZero()) )
 		{
 		if ( t_tag == TYPE_LIST || v_tag == TYPE_LIST )
-			t->Error("list mixed with scalar", v.get(), 0, expr_location);
+			t->Error("list mixed with scalar", v.get(), false, expr_location);
 		else
-			t->Error("arithmetic mixed with non-arithmetic", v.get(), 0, expr_location);
+			t->Error("arithmetic mixed with non-arithmetic", v.get(), false, expr_location);
 		return nullptr;
 		}
 
@@ -3081,7 +3081,7 @@ IntrusivePtr<Val> check_and_promote(IntrusivePtr<Val> v, const BroType* t,
 		TypeTag mt = max_type(t_tag, v_tag);
 		if ( mt != t_tag )
 			{
-			t->Error("over-promotion of arithmetic value", v.get(), 0, expr_location);
+			t->Error("over-promotion of arithmetic value", v.get(), false, expr_location);
 			return nullptr;
 			}
 		}
@@ -3100,7 +3100,7 @@ IntrusivePtr<Val> check_and_promote(IntrusivePtr<Val> v, const BroType* t,
 	case TYPE_INTERNAL_INT:
 		if ( ( vit == TYPE_INTERNAL_UNSIGNED || vit == TYPE_INTERNAL_DOUBLE ) && Val::WouldOverflow(vt, t, v.get()) )
 			{
-			t->Error("overflow promoting from unsigned/double to signed arithmetic value", v.get(), 0, expr_location);
+			t->Error("overflow promoting from unsigned/double to signed arithmetic value", v.get(), false, expr_location);
 			return nullptr;
 			}
 		else if ( t_tag == TYPE_INT )
@@ -3116,7 +3116,7 @@ IntrusivePtr<Val> check_and_promote(IntrusivePtr<Val> v, const BroType* t,
 	case TYPE_INTERNAL_UNSIGNED:
 		if ( ( vit == TYPE_INTERNAL_DOUBLE || vit == TYPE_INTERNAL_INT) && Val::WouldOverflow(vt, t, v.get()) )
 			{
-			t->Error("overflow promoting from signed/double to unsigned arithmetic value", v.get(), 0, expr_location);
+			t->Error("overflow promoting from signed/double to unsigned arithmetic value", v.get(), false, expr_location);
 			return nullptr;
 			}
 		else if ( t_tag == TYPE_COUNT || t_tag == TYPE_COUNTER )

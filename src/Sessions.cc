@@ -357,7 +357,7 @@ void NetSessions::DoNextPacket(double t, const Packet* pkt, const IP_Hdr* ip_hdr
 		const struct tcphdr* tp = (const struct tcphdr *) data;
 		id.src_port = tp->th_sport;
 		id.dst_port = tp->th_dport;
-		id.is_one_way = 0;
+		id.is_one_way = false;
 		d = &tcp_conns;
 		break;
 		}
@@ -367,7 +367,7 @@ void NetSessions::DoNextPacket(double t, const Packet* pkt, const IP_Hdr* ip_hdr
 		const struct udphdr* up = (const struct udphdr *) data;
 		id.src_port = up->uh_sport;
 		id.dst_port = up->uh_dport;
-		id.is_one_way = 0;
+		id.is_one_way = false;
 		d = &udp_conns;
 		break;
 		}
@@ -921,7 +921,7 @@ Connection* NetSessions::FindConnection(Val* v)
 	id.src_port = htons((unsigned short) orig_portv->Port());
 	id.dst_port = htons((unsigned short) resp_portv->Port());
 
-	id.is_one_way = 0;	// ### incorrect for ICMP connections
+	id.is_one_way = false;	// ### incorrect for ICMP connections
 
 	ConnIDKey key = BuildConnIDKey(id);
 	ConnectionMap* d;

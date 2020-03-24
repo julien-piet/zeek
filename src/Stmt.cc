@@ -275,7 +275,7 @@ IntrusivePtr<Val> PrintStmt::DoExec(val_list* vals, stmt_flow_type& /* flow */) 
 	if ( f->IsRawOutput() )
 		{
 		ODesc d(DESC_READABLE);
-		d.SetFlush(0);
+		d.SetFlush(false);
 		d.SetStyle(style);
 
 		PrintVals(&d, vals, offset);
@@ -284,7 +284,7 @@ IntrusivePtr<Val> PrintStmt::DoExec(val_list* vals, stmt_flow_type& /* flow */) 
 	else
 		{
 		ODesc d(DESC_READABLE, f);
-		d.SetFlush(0);
+		d.SetFlush(false);
 		d.SetStyle(style);
 
 		PrintVals(&d, vals, offset);
@@ -726,7 +726,7 @@ SwitchStmt::~SwitchStmt()
 
 bool SwitchStmt::AddCaseLabelValueMapping(const Val* v, int idx)
 	{
-	HashKey* hk = comp_hash->ComputeHash(v, 1);
+	HashKey* hk = comp_hash->ComputeHash(v, true);
 
 	if ( ! hk )
 		{
@@ -770,7 +770,7 @@ std::pair<int, ID*> SwitchStmt::FindCaseLabelMatch(const Val* v) const
 	// Find matching expression cases.
 	if ( case_label_value_map.Length() )
 		{
-		HashKey* hk = comp_hash->ComputeHash(v, 1);
+		HashKey* hk = comp_hash->ComputeHash(v, true);
 
 		if ( ! hk )
 			{

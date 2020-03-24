@@ -138,7 +138,7 @@ int Base64Converter::Decode(int len, const char* data, int* pblen, char** pbuf)
 
 	int dlen = 0;
 
-	while ( 1 )
+	while ( true )
 		{
 		if ( base64_group_next == 4 )
 			{

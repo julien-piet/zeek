@@ -142,7 +142,7 @@ void HTTP_Entity::Deliver(int len, const char* data, bool trailing_CRLF)
 				SetPlainDelivery(0);
 				chunked_transfer_state = EXPECT_CHUNK_DATA_CRLF;
 				}
-			DeliverBody(len, data, 0);
+			DeliverBody(len, data, false);
 			break;
 
 		case EXPECT_CHUNK_DATA_CRLF:
@@ -159,7 +159,7 @@ void HTTP_Entity::Deliver(int len, const char* data, bool trailing_CRLF)
 		ASSERT(! trailing_CRLF);
 		ASSERT(len <= expect_data_length);
 
-		DeliverBody(len, data, 0);
+		DeliverBody(len, data, false);
 
 		expect_data_length -= len;
 		if ( expect_data_length <= 0 )
@@ -943,14 +943,14 @@ void HTTP_Analyzer::DeliverStream(int len, const u_char* data, bool is_orig)
 		if ( is_orig )
 			{
 			if ( request_message )
-				request_message->Deliver(len, line, 0);
+				request_message->Deliver(len, line, false);
 			else
 				Weird("unexpected_client_HTTP_data");
 			}
 		else
 			{
 			if ( reply_message )
-				reply_message->Deliver(len, line, 0);
+				reply_message->Deliver(len, line, false);
 			else
 				Weird("unexpected_server_HTTP_data");
 			}
@@ -1014,7 +1014,7 @@ void HTTP_Analyzer::DeliverStream(int len, const u_char* data, bool is_orig)
 			break;
 
 		case EXPECT_REQUEST_MESSAGE:
-			request_message->Deliver(len, line, 1);
+			request_message->Deliver(len, line, true);
 			break;
 
 		case EXPECT_REQUEST_TRAILER:
@@ -1061,7 +1061,7 @@ void HTTP_Analyzer::DeliverStream(int len, const u_char* data, bool is_orig)
 			break;
 
 		case EXPECT_REPLY_MESSAGE:
-			reply_message->Deliver(len, line, 1);
+			reply_message->Deliver(len, line, true);
 
 			if ( connect_request && len == 0 )
 				{
@@ -1131,13 +1131,12 @@ void HTTP_Analyzer::Undelivered(uint64_t seq, int len, bool is_orig)
 		RequestMade(true, "message interrupted by a content gap");
 		ReplyMade(true, "message interrupted by a content gap");
 
-		content_line->SetSkipDeliveries(1);
-		content_line->SetSkipDeliveries(1);
+		content_line->SetSkipDeliveries(true);
 		}
 	else
 		{
 		ReplyMade(true, "message interrupted by a content gap");
-		content_line->SetSkipDeliveries(1);
+		content_line->SetSkipDeliveries(true);
 		}
 	}
 

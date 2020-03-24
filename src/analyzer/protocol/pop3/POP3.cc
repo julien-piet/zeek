@@ -860,7 +860,7 @@ void POP3_Analyzer::EndData()
 
 void POP3_Analyzer::ProcessData(int length, const char* line)
 	{
-	mail->Deliver(length, line, 1);
+	mail->Deliver(length, line, true);
 	}
 
 int POP3_Analyzer::ParseCmd(string cmd)

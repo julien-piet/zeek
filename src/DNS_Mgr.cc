@@ -255,7 +255,7 @@ DNS_Mapping::DNS_Mapping(FILE* f)
 	else
 		addrs = 0;
 
-	init_failed = 0;
+	init_failed = false;
 	}
 
 DNS_Mapping::~DNS_Mapping()

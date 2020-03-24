@@ -435,7 +435,7 @@ RecordVal* ICMP_Analyzer::ExtractICMP6Context(int len, const u_char*& data)
 
 bool ICMP_Analyzer::IsReuse(double /* t */, const u_char* /* pkt */)
 	{
-	return 0;
+	return false;
 	}
 
 void ICMP_Analyzer::Describe(ODesc* d) const

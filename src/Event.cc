@@ -89,7 +89,7 @@ EventMgr::EventMgr()
 	current_mgr = timer_mgr;
 	current_aid = 0;
 	src_val = 0;
-	draining = 0;
+	draining = false;
 	}
 
 EventMgr::~EventMgr()

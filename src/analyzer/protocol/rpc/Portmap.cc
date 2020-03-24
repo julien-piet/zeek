@@ -31,7 +31,7 @@ bool PortmapperInterp::RPC_BuildCall(RPC_CallInfo* c, const u_char*& buf, int& n
 		{
 		Val* m = ExtractMapping(buf, n);
 		if ( ! m )
-			return 0;
+			return false;
 		c->AddVal(m);
 		}
 		break;
@@ -40,7 +40,7 @@ bool PortmapperInterp::RPC_BuildCall(RPC_CallInfo* c, const u_char*& buf, int& n
 		{
 		Val* m = ExtractMapping(buf, n);
 		if ( ! m )
-			return 0;
+			return false;
 		c->AddVal(m);
 		}
 		break;
@@ -49,7 +49,7 @@ bool PortmapperInterp::RPC_BuildCall(RPC_CallInfo* c, const u_char*& buf, int& n
 		{
 		Val* pr = ExtractPortRequest(buf, n);
 		if ( ! pr )
-			return 0;
+			return false;
 		c->AddVal(pr);
 		}
 		break;
@@ -61,7 +61,7 @@ bool PortmapperInterp::RPC_BuildCall(RPC_CallInfo* c, const u_char*& buf, int& n
 		{
 		Val* call_it = ExtractCallItRequest(buf, n);
 		if ( ! call_it )
-			return 0;
+			return false;
 		c->AddVal(call_it);
 		}
 		break;
@@ -92,7 +92,7 @@ bool PortmapperInterp::RPC_BuildReply(RPC_CallInfo* c, BifEnum::rpc_status statu
 			{
 			uint32_t status = extract_XDR_uint32(buf, n);
 			if ( ! buf )
-				return 0;
+				return false;
 
 			reply = val_mgr->GetBool(status);
 			event = pm_request_set;
@@ -107,7 +107,7 @@ bool PortmapperInterp::RPC_BuildReply(RPC_CallInfo* c, BifEnum::rpc_status statu
 			{
 			uint32_t status = extract_XDR_uint32(buf, n);
 			if ( ! buf )
-				return 0;
+				return false;
 
 			reply = val_mgr->GetBool(status);
 			event = pm_request_unset;
@@ -122,7 +122,7 @@ bool PortmapperInterp::RPC_BuildReply(RPC_CallInfo* c, BifEnum::rpc_status statu
 			{
 			uint32_t port = extract_XDR_uint32(buf, n);
 			if ( ! buf )
-				return 0;
+				return false;
 
 			RecordVal* rv = c->RequestVal()->AsRecordVal();
 			Val* is_tcp = rv->Lookup(2);

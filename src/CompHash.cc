@@ -25,20 +25,20 @@ CompositeHash::CompositeHash(IntrusivePtr<TypeList> composite_type)
 		{
 		if ( (*type->Types())[0]->Tag() == TYPE_RECORD )
 			{
-			is_complex_type = 1;
-			is_singleton = 0;
+			is_complex_type = true;
+			is_singleton = false;
 			}
 		else
 			{
-			is_complex_type = 0;
-			is_singleton = 1;
+			is_complex_type = false;
+			is_singleton = true;
 			}
 		}
 
 	else
 		{
-		is_singleton = 0;
-		is_complex_type = 0;
+		is_singleton = false;
+		is_complex_type = false;
 		}
 
 	if ( is_singleton )
@@ -52,7 +52,7 @@ CompositeHash::CompositeHash(IntrusivePtr<TypeList> composite_type)
 
 	else
 		{
-		size = ComputeKeySize(0, 1, true);
+		size = ComputeKeySize(0, true, true);
 
 		if ( size > 0 )
 			// Fixed size.  Make sure what we get is fully aligned.
@@ -370,7 +370,7 @@ HashKey* CompositeHash::ComputeHash(const Val* v, bool type_check) const
 			return 0;
 
 		k = reinterpret_cast<char*>(new double[sz/sizeof(double) + 1]);
-		type_check = 0;	// no need to type-check again.
+		type_check = false;	// no need to type-check again.
 		}
 
 	const type_list* tl = type->Types();

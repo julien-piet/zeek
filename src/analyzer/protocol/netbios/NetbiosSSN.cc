@@ -517,9 +517,9 @@ void NetbiosSSN_Analyzer::DeliverPacket(int len, const u_char* data, bool orig,
 	tcp::TCP_ApplicationAnalyzer::DeliverPacket(len, data, orig, seq, ip, caplen);
 
 	if ( orig )
-		interp->ParseMessageUDP(data, len, 1);
+		interp->ParseMessageUDP(data, len, true);
 	else
-		interp->ParseMessageUDP(data, len, 0);
+		interp->ParseMessageUDP(data, len, false);
 	}
 
 void NetbiosSSN_Analyzer::ExpireTimer(double t)

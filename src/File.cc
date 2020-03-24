@@ -87,12 +87,12 @@ BroFile::BroFile(const char* arg_name, const char* arg_access, BroType* arg_t)
 		f = stderr;
 
 	if ( f )
-		is_open = 1;
+		is_open = true;
 
 	else if ( ! Open() )
 		{
 		reporter->Error("cannot open %s: %s", name, strerror(errno));
-		is_open = 0;
+		is_open = false;
 		}
 	}
 
@@ -139,11 +139,11 @@ bool BroFile::Open(FILE* file, const char* mode)
 
 	if ( ! f )
 		{
-		is_open = 0;
+		is_open = false;
 		return false;
 		}
 
-	is_open = 1;
+	is_open = true;
 	open_files.emplace_back(std::make_pair(name, this));
 
 	RaiseOpenEvent();
@@ -167,7 +167,8 @@ BroFile::~BroFile()
 
 void BroFile::Init()
 	{
-	open_time = is_open = 0;
+	open_time = 0;
+	is_open = false;
 	attrs = 0;
 	buffered = true;
 	raw_output = false;

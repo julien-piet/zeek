@@ -669,7 +669,7 @@ void Dictionary::MoveChains()
 
 		for ( int j = 0; j < chain->length(); ++j )
 			{
-			Insert((*chain)[j], 0);
+			Insert((*chain)[j], false);
 			--num_entries;
 			--num;
 			}

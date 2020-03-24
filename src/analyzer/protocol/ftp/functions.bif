@@ -218,4 +218,3 @@ function fmt_ftp_port%(a: addr, p: port%): string
 		return val_mgr->GetEmptyString();
 		}
 	%}
-

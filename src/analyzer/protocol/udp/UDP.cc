@@ -237,7 +237,7 @@ void UDP_Analyzer::UpdateEndpointVal(RecordVal* endp, bool is_orig)
 
 bool UDP_Analyzer::IsReuse(double /* t */, const u_char* /* pkt */)
 	{
-	return 0;
+	return false;
 	}
 
 unsigned int UDP_Analyzer::MemoryAllocation() const

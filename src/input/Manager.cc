@@ -231,9 +231,9 @@ ReaderBackend* Manager::CreateBackend(ReaderFrontend* frontend, EnumVal* tag)
 bool Manager::CreateStream(Stream* info, RecordVal* description)
 	{
 	RecordType* rtype = description->Type()->AsRecordType();
-	if ( ! ( same_type(rtype, BifType::Record::Input::TableDescription, 0)
-		|| same_type(rtype, BifType::Record::Input::EventDescription, 0)
-		|| same_type(rtype, BifType::Record::Input::AnalysisDescription, 0) ) )
+	if ( ! ( same_type(rtype, BifType::Record::Input::TableDescription, false)
+		|| same_type(rtype, BifType::Record::Input::EventDescription, false)
+		|| same_type(rtype, BifType::Record::Input::AnalysisDescription, false) ) )
 		{
 		reporter->Error("Stream description argument not of right type for new input stream");
 		return false;
@@ -329,7 +329,7 @@ bool Manager::CreateStream(Stream* info, RecordVal* description)
 bool Manager::CreateEventStream(RecordVal* fval)
 	{
 	RecordType* rtype = fval->Type()->AsRecordType();
-	if ( ! same_type(rtype, BifType::Record::Input::EventDescription, 0) )
+	if ( ! same_type(rtype, BifType::Record::Input::EventDescription, false) )
 		{
 		reporter->Error("EventDescription argument not of right type");
 		return false;
@@ -367,13 +367,13 @@ bool Manager::CreateEventStream(RecordVal* fval)
 		return false;
 		}
 
-	if ( ! same_type((*args)[1], BifType::Enum::Input::Event, 0) )
+	if ( ! same_type((*args)[1], BifType::Enum::Input::Event, false) )
 		{
 		reporter->Error("Input stream %s: Event's second attribute must be of type Input::Event", stream_name.c_str());
 		return false;
 		}
 
-	if ( ! same_type((*args)[0], BifType::Record::Input::EventDescription, 0) )
+	if ( ! same_type((*args)[0], BifType::Record::Input::EventDescription, false) )
 		{
 		reporter->Error("Input stream %s: Event's first attribute must be of type Input::EventDescription", stream_name.c_str());
 		return false;
@@ -490,7 +490,7 @@ bool Manager::CreateEventStream(RecordVal* fval)
 bool Manager::CreateTableStream(RecordVal* fval)
 	{
 	RecordType* rtype = fval->Type()->AsRecordType();
-	if ( ! same_type(rtype, BifType::Record::Input::TableDescription, 0) )
+	if ( ! same_type(rtype, BifType::Record::Input::TableDescription, false) )
 		{
 		reporter->Error("TableDescription argument not of right type");
 		return false;
@@ -605,13 +605,13 @@ bool Manager::CreateTableStream(RecordVal* fval)
 			return false;
 			}
 
-		if ( ! same_type((*args)[0], BifType::Record::Input::TableDescription, 0) )
+		if ( ! same_type((*args)[0], BifType::Record::Input::TableDescription, false) )
 			{
 			reporter->Error("Input stream %s: Table event's first attribute must be of type Input::TableDescription", stream_name.c_str());
 			return false;
 			}
 
-		if ( ! same_type((*args)[1], BifType::Enum::Input::Event, 0) )
+		if ( ! same_type((*args)[1], BifType::Enum::Input::Event, false) )
 			{
 			reporter->Error("Input stream %s: Table event's second attribute must be of type Input::Event", stream_name.c_str());
 			return false;
@@ -756,13 +756,13 @@ bool Manager::CheckErrorEventTypes(const std::string& stream_name, const Func* e
 		return false;
 		}
 
-	if ( table && ! same_type((*args)[0], BifType::Record::Input::TableDescription, 0) )
+	if ( table && ! same_type((*args)[0], BifType::Record::Input::TableDescription, false) )
 		{
 		reporter->Error("Input stream %s: Error event's first attribute must be of type Input::TableDescription", stream_name.c_str());
 		return false;
 		}
 
-	if ( ! table && ! same_type((*args)[0], BifType::Record::Input::EventDescription, 0) )
+	if ( ! table && ! same_type((*args)[0], BifType::Record::Input::EventDescription, false) )
 		{
 		reporter->Error("Input stream %s: Error event's first attribute must be of type Input::EventDescription", stream_name.c_str());
 		return false;
@@ -774,7 +774,7 @@ bool Manager::CheckErrorEventTypes(const std::string& stream_name, const Func* e
 		return false;
 		}
 
-	if ( ! same_type((*args)[2], BifType::Enum::Reporter::Level, 0) )
+	if ( ! same_type((*args)[2], BifType::Enum::Reporter::Level, false) )
 		{
 		reporter->Error("Input stream %s: Error event's third attribute must be of type Reporter::Level", stream_name.c_str());
 		return false;
@@ -787,7 +787,7 @@ bool Manager::CreateAnalysisStream(RecordVal* fval)
 	{
 	RecordType* rtype = fval->Type()->AsRecordType();
 
-	if ( ! same_type(rtype, BifType::Record::Input::AnalysisDescription, 0) )
+	if ( ! same_type(rtype, BifType::Record::Input::AnalysisDescription, false) )
 		{
 		reporter->Error("AnalysisDescription argument not of right type");
 		return false;
@@ -1581,7 +1581,7 @@ int Manager::PutTable(Stream* i, const Value* const *vals)
 	assert(i->stream_type == TABLE_STREAM);
 	TableStream* stream = (TableStream*) i;
 
-	bool convert_error = 0;
+	bool convert_error = false;
 
 	Val* idxval = ValueToIndexVal(i, stream->num_idx_fields, stream->itype, vals, convert_error);
 	Val* valval;

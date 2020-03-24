@@ -553,9 +553,9 @@ void NVT_Analyzer::DoDeliver(int len, const u_char* data)
 			break;
 
 		case TELNET_IAC:
-			pending_IAC = 1;
+			pending_IAC = true;
 			IAC_pos = offset;
-			is_suboption = 0;
+			is_suboption = false;
 			buf[offset++] = c;
 			ScanOption(seq, len - 1, data + 1);
 			return;
@@ -589,14 +589,14 @@ void NVT_Analyzer::ScanOption(int seq, int len, const u_char* data)
 			{
 			// An escaped 255, throw away the second
 			// instance and drop the IAC state.
-			pending_IAC = 0;
+			pending_IAC = false;
 			last_char = code;
 			}
 
 		else if ( code == TELNET_OPT_SB )
 			{
-			is_suboption = 1;
-			last_was_IAC = 0;
+			is_suboption = true;
+			last_was_IAC = false;
 
 			if ( offset >= buf_len )
 				InitBuffer(buf_len * 2);
@@ -606,7 +606,7 @@ void NVT_Analyzer::ScanOption(int seq, int len, const u_char* data)
 
 		else if ( IS_3_BYTE_OPTION(code) )
 			{
-			is_suboption = 0;
+			is_suboption = false;
 
 			if ( offset >= buf_len )
 				InitBuffer(buf_len * 2);
@@ -621,7 +621,7 @@ void NVT_Analyzer::ScanOption(int seq, int len, const u_char* data)
 
 			// Throw it and the IAC away.
 			--offset;
-			pending_IAC = 0;
+			pending_IAC = false;
 			}
 
 		// Recurse to munch on the remainder.
@@ -636,7 +636,7 @@ void NVT_Analyzer::ScanOption(int seq, int len, const u_char* data)
 
 		// Delete the option.
 		offset -= 2;	// code + IAC
-		pending_IAC = 0;
+		pending_IAC = false;
 
 		DeliverStream(len - 1, data + 1, IsOrig());
 		return;
@@ -652,7 +652,7 @@ void NVT_Analyzer::ScanOption(int seq, int len, const u_char* data)
 
 		if ( last_was_IAC )
 			{
-			last_was_IAC = 0;
+			last_was_IAC = false;
 
 			if ( code == TELNET_IAC )
 				{
@@ -675,14 +675,14 @@ void NVT_Analyzer::ScanOption(int seq, int len, const u_char* data)
 
 			// Delete suboption.
 			offset = IAC_pos;
-			pending_IAC = is_suboption = 0;
+			pending_IAC = is_suboption = false;
 
 			if ( code == TELNET_OPT_SE )
 				DeliverStream(len - 1, data + 1, IsOrig());
 			else
 				{
 				// Munch on the new (broken) option.
-				pending_IAC = 1;
+				pending_IAC = true;
 				IAC_pos = offset;
 				buf[offset++] = TELNET_IAC;
 				DeliverStream(len, data, IsOrig());
