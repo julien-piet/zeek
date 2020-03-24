@@ -289,7 +289,7 @@ BroString* BroString::GetSubstring(int start, int len) const
 	if ( len < 0 || len > n - start )
 		len = n - start;
 
-	return new BroString(&b[start], len, 1);
+	return new BroString(&b[start], len, true);
 	}
 
 int BroString::FindSubstring(const BroString* s) const

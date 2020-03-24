@@ -953,7 +953,7 @@ void RuleMatcher::Match(RuleEndpointState* state, Rule::PatternType type,
 			if ( ! state->matched_by_patterns.is_member(r) )
 				{
 				state->matched_by_patterns.push_back(r);
-				BroString* s = new BroString(data, data_len, 0);
+				BroString* s = new BroString(data, data_len, false);
 				state->matched_text.push_back(s);
 				}
 

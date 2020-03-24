@@ -2330,7 +2330,7 @@ Val* Manager::ValueToVal(const Stream* i, const Value* val, BroType* request_typ
 
 	case TYPE_STRING:
 		{
-		BroString *s = new BroString((const u_char*)val->val.string_val.data, val->val.string_val.length, 1);
+		BroString *s = new BroString((const u_char*)val->val.string_val.data, val->val.string_val.length, true);
 		return new StringVal(s);
 		}
 
@@ -2479,7 +2479,7 @@ Val* Manager::ValueToVal(const Stream* i, const Value* val, bool& have_error) co
 
 	case TYPE_STRING:
 		{
-		BroString *s = new BroString((const u_char*)val->val.string_val.data, val->val.string_val.length, 1);
+		BroString *s = new BroString((const u_char*)val->val.string_val.data, val->val.string_val.length, true);
 		return new StringVal(s);
 		}
 

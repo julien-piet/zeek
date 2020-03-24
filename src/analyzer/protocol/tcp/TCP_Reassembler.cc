@@ -459,8 +459,8 @@ void TCP_Reassembler::Overlap(const u_char* b1, const u_char* b2, uint64_t n)
 	     // we've ever seen for the connection.
 	     (n > 1 || endp->peer->HasDoneSomething()) )
 		{
-		BroString* b1_s = new BroString((const u_char*) b1, n, 0);
-		BroString* b2_s = new BroString((const u_char*) b2, n, 0);
+		BroString* b1_s = new BroString((const u_char*) b1, n, false);
+		BroString* b2_s = new BroString((const u_char*) b2, n, false);
 
 		tcp_analyzer->ConnectionEventFast(rexmit_inconsistency, {
 			tcp_analyzer->BuildConnVal(),

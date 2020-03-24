@@ -163,5 +163,5 @@ Val* Discarder::BuildData(const u_char* data, int hdrlen, int len, int caplen)
 
 	len = max(min(min(len, caplen), discarder_maxlen), 0);
 
-	return new StringVal(new BroString(data, len, 1));
+	return new StringVal(new BroString(data, len, true));
 	}

@@ -197,7 +197,7 @@ bool DNS_Interpreter::ParseQuestion(DNS_MsgInfo* msg,
 	if ( dns_event && ! msg->skip_event )
 		{
 		BroString* question_name =
-			new BroString(name, name_end - name, 1);
+			new BroString(name, name_end - name, true);
 		SendReplyOrRejectEvent(msg, dns_event, data, len, question_name);
 		}
 	else
@@ -232,7 +232,7 @@ bool DNS_Interpreter::ParseAnswer(DNS_MsgInfo* msg,
 	// re-interpreted by other, more adventurous RR types.
 
 	Unref(msg->query_name);
-	msg->query_name = new StringVal(new BroString(name, name_end - name, 1));
+	msg->query_name = new StringVal(new BroString(name, name_end - name, true));
 	msg->atype = RR_Type(ExtractShort(data, len));
 	msg->aclass = ExtractShort(data, len);
 	msg->ttl = ExtractLong(data, len);
@@ -558,7 +558,7 @@ bool DNS_Interpreter::ParseRR_Name(DNS_MsgInfo* msg,
 			analyzer->BuildConnVal(),
 			msg->BuildHdrVal(),
 			msg->BuildAnswerVal(),
-			new StringVal(new BroString(name, name_end - name, 1)),
+			new StringVal(new BroString(name, name_end - name, true)),
 		});
 		}
 
@@ -600,8 +600,8 @@ bool DNS_Interpreter::ParseRR_SOA(DNS_MsgInfo* msg,
 	if ( dns_SOA_reply && ! msg->skip_event )
 		{
 		RecordVal* r = new RecordVal(dns_soa);
-		r->Assign(0, new StringVal(new BroString(mname, mname_end - mname, 1)));
-		r->Assign(1, new StringVal(new BroString(rname, rname_end - rname, 1)));
+		r->Assign(0, new StringVal(new BroString(mname, mname_end - mname, true)));
+		r->Assign(1, new StringVal(new BroString(rname, rname_end - rname, true)));
 		r->Assign(2, val_mgr->GetCount(serial));
 		r->Assign(3, new IntervalVal(double(refresh), Seconds));
 		r->Assign(4, new IntervalVal(double(retry), Seconds));
@@ -643,7 +643,7 @@ bool DNS_Interpreter::ParseRR_MX(DNS_MsgInfo* msg,
 			analyzer->BuildConnVal(),
 			msg->BuildHdrVal(),
 			msg->BuildAnswerVal(),
-			new StringVal(new BroString(name, name_end - name, 1)),
+			new StringVal(new BroString(name, name_end - name, true)),
 			val_mgr->GetCount(preference),
 		});
 		}
@@ -686,7 +686,7 @@ bool DNS_Interpreter::ParseRR_SRV(DNS_MsgInfo* msg,
 			analyzer->BuildConnVal(),
 			msg->BuildHdrVal(),
 			msg->BuildAnswerVal(),
-			new StringVal(new BroString(name, name_end - name, 1)),
+			new StringVal(new BroString(name, name_end - name, true)),
 			val_mgr->GetCount(priority),
 			val_mgr->GetCount(weight),
 			val_mgr->GetCount(port),
@@ -731,7 +731,7 @@ void DNS_Interpreter::ExtractOctets(const u_char*& data, int& len,
 	dlen = min(len, static_cast<int>(dlen));
 
 	if ( p )
-		*p = new BroString(data, dlen, 0);
+		*p = new BroString(data, dlen, false);
 
 	data += dlen;
 	len -= dlen;
@@ -741,7 +741,7 @@ BroString* DNS_Interpreter::ExtractStream(const u_char*& data, int& len, int l)
 	{
 	l = max(l, 0);
 	int dlen = min(len, l); // Len in bytes of the algorithm use
-	auto rval = new BroString(data, dlen, 0);
+	auto rval = new BroString(data, dlen, false);
 
 	data += dlen;
 	len -= dlen;
@@ -775,7 +775,7 @@ bool DNS_Interpreter::ParseRR_TSIG(DNS_MsgInfo* msg,
 		{
 		TSIG_DATA tsig;
 		tsig.alg_name =
-			new BroString(alg_name, alg_name_end - alg_name, 1);
+			new BroString(alg_name, alg_name_end - alg_name, true);
 		tsig.sig = request_MAC;
 		tsig.time_s = sign_time_sec;
 		tsig.time_ms = sign_time_msec;
@@ -881,7 +881,7 @@ bool DNS_Interpreter::ParseRR_RRSIG(DNS_MsgInfo* msg,
 		rrsig.sig_exp = sign_exp;
 		rrsig.sig_incep = sign_incp;
 		rrsig.key_tag = key_tag;
-		rrsig.signer_name = new BroString(name, name_end - name, 1);
+		rrsig.signer_name = new BroString(name, name_end - name, true);
 		rrsig.signature = sign;
 
 		analyzer->ConnectionEventFast(dns_RRSIG, {
@@ -1035,7 +1035,7 @@ bool DNS_Interpreter::ParseRR_NSEC(DNS_MsgInfo* msg,
 			analyzer->BuildConnVal(),
 			msg->BuildHdrVal(),
 			msg->BuildAnswerVal(),
-			new StringVal(new BroString(name, name_end - name, 1)),
+			new StringVal(new BroString(name, name_end - name, true)),
 			char_strings,
 		});
 	else
@@ -1377,11 +1377,11 @@ bool DNS_Interpreter::ParseRR_CAA(DNS_MsgInfo* msg,
 		analyzer->Weird("DNS_CAA_char_str_past_rdlen");
 		return false;
 		}
-	BroString* tag = new BroString(data, tagLen, 1);
+	BroString* tag = new BroString(data, tagLen, true);
 	len -= tagLen;
 	data += tagLen;
 	rdlength -= tagLen;
-	BroString* value = new BroString(data, rdlength, 0);
+	BroString* value = new BroString(data, rdlength, false);
 
 	len -= value->Len();
 	data += value->Len();

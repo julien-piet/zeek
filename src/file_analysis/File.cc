@@ -358,7 +358,7 @@ bool File::BufferBOF(const u_char* data, uint64_t len)
 
 	uint64_t desired_size = LookupFieldDefaultCount(bof_buffer_size_idx);
 
-	bof_buffer.chunks.push_back(new BroString(data, len, 0));
+	bof_buffer.chunks.push_back(new BroString(data, len, false));
 	bof_buffer.size += len;
 
 	if ( bof_buffer.size < desired_size )

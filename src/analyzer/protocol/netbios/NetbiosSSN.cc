@@ -327,13 +327,13 @@ void NetbiosSSN_Interpreter::Event(EventHandlerPtr event, const u_char* data,
 		analyzer->ConnectionEventFast(event, {
 			analyzer->BuildConnVal(),
 			val_mgr->GetBool(is_orig),
-			new StringVal(new BroString(data, len, 0)),
+			new StringVal(new BroString(data, len, false)),
 		});
 		}
 	else
 		analyzer->ConnectionEventFast(event, {
 			analyzer->BuildConnVal(),
-			new StringVal(new BroString(data, len, 0)),
+			new StringVal(new BroString(data, len, false)),
 		});
 	}
 

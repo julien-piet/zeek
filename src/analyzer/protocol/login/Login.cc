@@ -602,7 +602,7 @@ Val* Login_Analyzer::PopUserTextVal()
 	char* s = PopUserText();
 
 	if ( s )
-		return new StringVal(new BroString(1, byte_vec(s), strlen(s)));
+		return new StringVal(new BroString(true, byte_vec(s), strlen(s)));
 	else
 		return val_mgr->GetEmptyString();
 	}

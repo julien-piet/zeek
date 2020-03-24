@@ -776,7 +776,7 @@ void HTTP_Message::SubmitData(int len, const char* buf)
 	{
 	if ( http_entity_data )
 		MyHTTP_Analyzer()->HTTP_EntityData(is_orig,
-		        new BroString(reinterpret_cast<const u_char*>(buf), len, 0));
+		        new BroString(reinterpret_cast<const u_char*>(buf), len, false));
 	}
 
 bool HTTP_Message::RequestBuffer(int* plen, char** pbuf)
@@ -1408,7 +1408,7 @@ StringVal* HTTP_Analyzer::TruncateURI(StringVal* uri)
 		u_char* s = new u_char[truncate_http_URI + 4];
 		memcpy(s, str->Bytes(), truncate_http_URI);
 		memcpy(s + truncate_http_URI, "...", 4);
-		return new StringVal(new BroString(1, s, truncate_http_URI+3));
+		return new StringVal(new BroString(true, s, truncate_http_URI+3));
 		}
 	else
 		{
@@ -1860,5 +1860,5 @@ BroString* analyzer::http::unescape_URI(const u_char* line, const u_char* line_e
 
 	URI_p[0] = 0;
 
-	return new BroString(1, decoded_URI, URI_p - decoded_URI);
+	return new BroString(true, decoded_URI, URI_p - decoded_URI);
 	}

@@ -255,7 +255,7 @@ BroString* decode_base64(const BroString* s, const BroString* a, Connection* con
 	rlen += rlen2;
 
 	rbuf[rlen] = '\0';
-	return new BroString(1, (u_char*) rbuf, rlen);
+	return new BroString(true, (u_char*) rbuf, rlen);
 
 err:
 	delete [] rbuf;
@@ -276,5 +276,5 @@ BroString* encode_base64(const BroString* s, const BroString* a, Connection* con
 	Base64Converter enc(conn, a ? a->CheckString() : "");
 	enc.Encode(s->Len(), (const unsigned char*) s->Bytes(), &outlen, &outbuf);
 
-	return new BroString(1, (u_char*)outbuf, outlen);
+	return new BroString(true, (u_char*)outbuf, outlen);
 	}

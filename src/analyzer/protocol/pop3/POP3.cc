@@ -78,7 +78,7 @@ void POP3_Analyzer::DeliverStream(int len, const u_char* data, bool orig)
 	if ( (TCP() && TCP()->IsPartial()) )
 		return;
 
-	BroString terminated_string(data, len, 1);
+	BroString terminated_string(data, len, true);
 
 	if ( orig )
 		ProcessRequest(len, (char*) terminated_string.Bytes());

@@ -211,7 +211,7 @@ void ICMP_Analyzer::ICMP_Sent(const struct icmp* icmpp, int len, int caplen,
 
 	if ( icmp_sent_payload )
 		{
-		BroString* payload = new BroString(data, min(len, caplen), 0);
+		BroString* payload = new BroString(data, min(len, caplen), false);
 
 		ConnectionEventFast(icmp_sent_payload, {
 			BuildConnVal(),
@@ -514,7 +514,7 @@ void ICMP_Analyzer::Echo(double t, const struct icmp* icmpp, int len,
 	int iid = ntohs(icmpp->icmp_hun.ih_idseq.icd_id);
 	int iseq = ntohs(icmpp->icmp_hun.ih_idseq.icd_seq);
 
-	BroString* payload = new BroString(data, caplen, 0);
+	BroString* payload = new BroString(data, caplen, false);
 
 	ConnectionEventFast(f, {
 		BuildConnVal(),
@@ -777,7 +777,7 @@ VectorVal* ICMP_Analyzer::BuildNDOptionsVal(int caplen, const u_char* data)
 			{
 			if ( caplen >= length )
 				{
-				BroString* link_addr = new BroString(data, length, 0);
+				BroString* link_addr = new BroString(data, length, false);
 				rv->Assign(2, new StringVal(link_addr));
 				}
 			else
@@ -848,7 +848,7 @@ VectorVal* ICMP_Analyzer::BuildNDOptionsVal(int caplen, const u_char* data)
 		if ( set_payload_field )
 			{
 			BroString* payload =
-			        new BroString(data, min((int)length, caplen), 0);
+			        new BroString(data, min((int)length, caplen), false);
 			rv->Assign(6, new StringVal(payload));
 			}
 

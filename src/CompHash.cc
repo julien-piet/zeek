@@ -1051,7 +1051,7 @@ const char* CompositeHash::RecoverOneVal(const HashKey* k, const char* kp0,
 			kp1 = reinterpret_cast<const char*>(kp+1);
 			}
 
-		pval = new StringVal(new BroString((const byte_vec) kp1, n, 1));
+		pval = new StringVal(new BroString((const byte_vec) kp1, n, true));
 		kp1 += n;
 		}
 		break;

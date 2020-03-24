@@ -231,7 +231,7 @@ StringVal* MOUNT_Interp::mount3_fh(const u_char*& buf, int& n)
 	if ( ! fh )
 		return 0;
 
-	return new StringVal(new BroString(fh, fh_n, 0));
+	return new StringVal(new BroString(fh, fh_n, false));
 	}
 
 StringVal* MOUNT_Interp::mount3_filename(const u_char*& buf, int& n)
@@ -242,7 +242,7 @@ StringVal* MOUNT_Interp::mount3_filename(const u_char*& buf, int& n)
 	if ( ! name )
 		return 0;
 
-	return new StringVal(new BroString(name, name_len, 0));
+	return new StringVal(new BroString(name, name_len, false));
 	}
 
 RecordVal* MOUNT_Interp::mount3_dirmntargs(const u_char*& buf, int& n)

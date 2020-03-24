@@ -919,7 +919,7 @@ void TransportLayerAnalyzer::PacketContents(const u_char* data, int len)
 	{
 	if ( packet_contents && len > 0 )
 		{
-		BroString* cbs = new BroString(data, len, 1);
+		BroString* cbs = new BroString(data, len, true);
 		Val* contents = new StringVal(cbs);
 		Event(packet_contents, contents);
 		}

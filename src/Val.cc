@@ -967,7 +967,7 @@ StringVal::StringVal(BroString* s) : Val(s, TYPE_STRING)
 
 // The following adds a NUL at the end.
 StringVal::StringVal(int length, const char* s)
-	: StringVal(new BroString(reinterpret_cast<const u_char*>(s), length, 1))
+	: StringVal(new BroString(reinterpret_cast<const u_char*>(s), length, true))
 	{
 	}
 
@@ -1107,7 +1107,7 @@ Val* StringVal::Substitute(RE_Matcher* re, StringVal* repl, bool do_all)
 	// the NUL.
 	r[0] = '\0';
 
-	return new StringVal(new BroString(1, result, r - result));
+	return new StringVal(new BroString(true, result, r - result));
 	}
 
 Val* StringVal::DoClone(CloneState* state)
@@ -1117,7 +1117,7 @@ Val* StringVal::DoClone(CloneState* state)
 	// audit whether anything internal actually does mutate it.
 	return state->NewClone(this, new StringVal(
 	        new BroString((u_char*) val.string_val->Bytes(),
-	                      val.string_val->Len(), 1)));
+	                      val.string_val->Len(), true)));
 	}
 
 PatternVal::PatternVal(RE_Matcher* re) : Val(base_type(TYPE_PATTERN))

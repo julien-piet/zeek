@@ -313,7 +313,7 @@ StringVal* NFS_Interp::nfs3_file_data(const u_char*& buf, int& n, uint64_t offse
 	data_n = min(data_n, int(BifConst::NFS3::return_data_max));
 
 	if ( data && data_n > 0 )
-		return new StringVal(new BroString(data, data_n, 0));
+		return new StringVal(new BroString(data, data_n, false));
 
 	return 0;
 	}
@@ -359,7 +359,7 @@ StringVal* NFS_Interp::nfs3_fh(const u_char*& buf, int& n)
 	if ( ! fh )
 		return 0;
 
-	return new StringVal(new BroString(fh, fh_n, 0));
+	return new StringVal(new BroString(fh, fh_n, false));
 	}
 
 
@@ -465,7 +465,7 @@ StringVal *NFS_Interp::nfs3_filename(const u_char*& buf, int& n)
 	if ( ! name )
 		return 0;
 
-	return new StringVal(new BroString(name, name_len, 0));
+	return new StringVal(new BroString(name, name_len, false));
 	}
 
 RecordVal *NFS_Interp::nfs3_diropargs(const u_char*& buf, int& n)

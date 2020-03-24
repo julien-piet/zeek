@@ -462,7 +462,7 @@ void NVT_Analyzer::SetTerminal(const u_char* terminal, int len)
 		{
 		ConnectionEventFast(login_terminal, {
 			BuildConnVal(),
-			new StringVal(new BroString(terminal, len, 0)),
+			new StringVal(new BroString(terminal, len, false)),
 		});
 		}
 	}

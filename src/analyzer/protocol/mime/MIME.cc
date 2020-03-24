@@ -399,7 +399,7 @@ int MIME_get_value(int len, const char* data, BroString*& buf, bool is_boundary)
 		if ( end < 0 )
 			return -1;
 
-		buf = new BroString((const u_char*)str.data, str.length, 1);
+		buf = new BroString((const u_char*)str.data, str.length, true);
 		return offset + end;
 		}
 	}
@@ -427,7 +427,7 @@ BroString* MIME_decode_quoted_pairs(data_chunk_t buf)
 			dest[j++] = data[i];
 	dest[j] = 0;
 
-	return new BroString(1, (byte_vec) dest, j);
+	return new BroString(true, (byte_vec) dest, j);
 	}
 
 
@@ -836,7 +836,7 @@ bool MIME_Entity::ParseContentEncodingField(MIME_Header* h)
 		return false;
 		}
 
-	content_encoding_str = new BroString((const u_char*)enc.data, enc.length, 1);
+	content_encoding_str = new BroString((const u_char*)enc.data, enc.length, true);
 	ParseContentEncoding(enc);
 
 	if ( need_to_parse_parameters )
@@ -902,7 +902,7 @@ bool MIME_Entity::ParseFieldParameters(int len, const char* data)
 
 			data_chunk_t vd = get_data_chunk(val);
 			multipart_boundary = new BroString((const u_char*)vd.data,
-			                                   vd.length, 1);
+			                                   vd.length, true);
 			}
 		else
 			// token or quoted-string
@@ -1337,7 +1337,7 @@ MIME_Mail::MIME_Mail(analyzer::Analyzer* mail_analyzer, bool orig, int buf_size)
 		length = max_chunk_length;
 
 	buffer_start = data_start = 0;
-	data_buffer = new BroString(1, new u_char[length+1], length);
+	data_buffer = new BroString(true, new u_char[length+1], length);
 
 	if ( mime_content_hash )
 		{
@@ -1368,7 +1368,7 @@ void MIME_Mail::Done()
 		analyzer->ConnectionEventFast(mime_content_hash, {
 			analyzer->BuildConnVal(),
 			val_mgr->GetCount(content_hash_length),
-			new StringVal(new BroString(1, digest, 16)),
+			new StringVal(new BroString(true, digest, 16)),
 		});
 		}
 
@@ -1463,7 +1463,7 @@ void MIME_Mail::SubmitData(int len, const char* buf)
 
 	if ( mime_entity_data || mime_all_data )
 		{
-		BroString* s = new BroString((const u_char*) buf, len, 0);
+		BroString* s = new BroString((const u_char*) buf, len, false);
 
 		if ( mime_entity_data )
 			entity_content.push_back(s);
