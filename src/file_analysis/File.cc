@@ -306,7 +306,7 @@ bool File::SetMime(const string& mime_type)
 
 	RecordVal* meta = new RecordVal(fa_metadata_type);
 	meta->Assign(meta_mime_type_idx, new StringVal(mime_type));
-	meta->Assign(meta_inferred_idx, val_mgr->GetBool(0));
+	meta->Assign(meta_inferred_idx, val_mgr->GetFalse());
 
 	FileEvent(file_sniff, {val->Ref(), meta});
 	return true;

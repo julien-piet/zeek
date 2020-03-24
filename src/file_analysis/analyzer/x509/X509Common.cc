@@ -283,7 +283,7 @@ void file_analysis::X509Common::ParseExtension(X509_EXTENSION* ex, const EventHa
 		mgr.QueueEvent(h, {
 			GetFile()->GetVal()->Ref(),
 			pX509Ext,
-			val_mgr->GetBool(global ? 1 : 0),
+			val_mgr->GetBool(global),
 		});
 	else
 		mgr.QueueEvent(h, {

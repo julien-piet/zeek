@@ -287,7 +287,7 @@ bool Manager::CreateStream(EnumVal* id, RecordVal* sval)
 		if ( ! same_type((*args)[0], columns) )
 			{
 			reporter->Error("stream event's argument type does not match column record type");
-			return val_mgr->GetBool(0);
+			return val_mgr->GetFalse();
 			}
 		}
 
