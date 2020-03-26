@@ -1401,9 +1401,9 @@ public:
 			rotate = arg_rotate;
 			}
 
-	~RotationTimer();
+	~RotationTimer() override;
 
-	void Dispatch(double t, int is_expire);
+	void Dispatch(double t, int is_expire) override;
 
 protected:
 	Manager::WriterInfo* winfo;
