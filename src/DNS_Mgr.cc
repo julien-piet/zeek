@@ -222,7 +222,7 @@ DNS_Mapping::DNS_Mapping(FILE* f)
 	     &req_ttl) != 8 )
 		return;
 
-	failed = (bool)failed_local;
+	failed = static_cast<bool>(failed_local);
 
 	if ( is_req_host )
 		req_host = copy_string(req_buf);
